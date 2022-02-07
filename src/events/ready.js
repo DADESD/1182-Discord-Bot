@@ -23,7 +23,9 @@ module.exports = {
 };
 
 async function CheckEventi() {
-    console.log('Hello World');
+    // var currentdate = new Date('07/02/2022');
+    // var otherdate = new Date('08/02/2022');
+    // console.log(getDifferenceInHours(otherdate, currentdate));
     setTimeout(CheckEventi,5000);
 }
 
