@@ -16,6 +16,7 @@ module.exports = {
                 }
 
                 await command.execute(interaction, client);
+                
             } catch (error)
             {
                 console.log(error);

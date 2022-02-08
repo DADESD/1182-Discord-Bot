@@ -13,9 +13,12 @@ module.exports = {
     
     async execute(interaction, client) {
 
-        const FiltroTicket = {channelID:interaction.channel.id};
+        if (await ControlliPreliminari(interaction) == false) return
+
+        const FiltroTicket = {ChannelID:interaction.channel.id};
         const myticketdata = await Ticket.find(FiltroTicket);
-        if (myticketdata[0] == null) await interaction.reply('There are no data available for this channel!');
+        if (myticketdata[0] == null || myticketdata.length == 0) 
+        await interaction.reply({content:'There are no data available for this channel!', ephemeral:true});
         else
         {
             let UserInfo = await client.users.fetch(myticketdata[0].memberId);
@@ -42,3 +45,22 @@ module.exports = {
         }
     },
 };
+
+async function ControlliPreliminari(interaction) {
+
+    //Controllo di essere sulla categoria corretta
+    if (interaction.channel.parentId !== process.env.ID_CATEGORIA_WELCOME) {
+        console.log('Categoria errata ticket_show_details');
+        await interaction.reply({content:'This command is allowed only in WELCOME category!', ephemeral: true});
+        return false;
+    }
+    //Controllo di mettere il comando SOLO nella pagina relativa ai ticket!!!
+    if (interaction.channel.id === process.env.WELCOME_PAGE_ID || interaction.channel.id === process.env.TICKETMANAGEMENT_PAGE_ID) {
+        console.log('Canale errato ticket_show_details');
+        await interaction.reply({content:'This command is allowed only in specific ticket channels (opened tickets)!', ephemeral: true});
+        return false;
+    }
+
+    return true;
+
+}
