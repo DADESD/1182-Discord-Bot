@@ -18,11 +18,12 @@ module.exports = {
 
     async execute(interaction) {
 
-        if (await ControlliPreliminari(interaction) == false) return
+        var passed = await ControlliPreliminari(interaction);
+        if (passed == false) return;
         
-        const FiltroTicket = {channelID:interaction.channel.id};
+        const FiltroTicket = {ChannelID:interaction.channel.id};
         const myticketdata = await Ticket.find(FiltroTicket);
-        if (myticketdata == null) await interaction.reply('There are no data available for this channel!');
+        if (myticketdata == null) return await interaction.reply({content:'There are no data available for this channel!', ephemeral:true});
         else
         {
             const CampiDaAggiornare ={status: "REFUSED"};

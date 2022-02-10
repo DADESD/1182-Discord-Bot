@@ -13,12 +13,13 @@ module.exports = {
     
     async execute(interaction, client) {
 
-        if (await ControlliPreliminari(interaction) == false) return
+        var passed = await ControlliPreliminari(interaction);
+        if (passed == false) return;
 
         const FiltroTicket = {ChannelID:interaction.channel.id};
         const myticketdata = await Ticket.find(FiltroTicket);
         if (myticketdata[0] == null || myticketdata.length == 0) 
-        await interaction.reply({content:'There are no data available for this channel!', ephemeral:true});
+        return await interaction.reply({content:'There are no data available for this channel!', ephemeral:true});
         else
         {
             let UserInfo = await client.users.fetch(myticketdata[0].memberId);

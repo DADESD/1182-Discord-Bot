@@ -28,17 +28,18 @@ module.exports = {
 
     async execute(interaction, client) {
 
-        if (await ControlliPreliminari(interaction) == false) return
+        var passed = await ControlliPreliminari(interaction);
+        if (passed == false) return;
 
         const {guild, member} = interaction;
         
         let Embed = new MessageEmbed()
             .setAuthor({name: '1182 - Ticket System'})
             .setDescription('Open a ticket for the user ' + interaction.user.username)
-            .setColor('RANDOM')
+            .setColor('RANDOM');
 
-        const Buttons = new MessageActionRow();
-        Buttons.addComponents(
+        const Buttons = new MessageActionRow()
+            .addComponents(
                 new MessageButton()
                 .setCustomId("ticket-gnd-member")
                 .setLabel("GnD Member")

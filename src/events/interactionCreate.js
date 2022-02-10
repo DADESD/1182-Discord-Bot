@@ -20,7 +20,7 @@ module.exports = {
             } catch (error)
             {
                 console.log(error);
-                await interaction.reply(
+                await interaction.editReply(
                     {
                         content: 'Error while executing the interaction',
                         ephemeral: true
