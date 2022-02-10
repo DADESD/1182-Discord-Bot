@@ -17,7 +17,7 @@ const buttonFolders = fs.readdirSync("./src/buttons");
         {
             require('./functions/' + file)(client);
         }
-        await client.handleCommands(commandFolders, './src/commands');
+        client.handleCommands(commandFolders, './src/commands');
         client.handleEvents(eventFiles, './src/events');
         client.handleButtons(buttonFolders, './src/buttons');
         client.login(process.env.token);

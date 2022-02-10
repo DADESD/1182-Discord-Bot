@@ -22,7 +22,7 @@ module.exports = {
         //Ora gli metto in output i bottoni, primaperò genero già un record per 
         //questo giocatore salvando il governor ID, così dopo devo solo salvarlo
         const FiltroTicket = {guildId:guild.id, memberId:member.id};
-        const ticketdacercare = await Ticket.find(FiltroTicket);
+        const ticketdacercare = await Ticket.findOne(FiltroTicket);
         if (ticketdacercare == null) return await interaction.reply({content:"You don't have any ticket to delete!", ephemeral: true});
         else {
             await Ticket.deleteOne(FiltroTicket);
@@ -33,8 +33,6 @@ module.exports = {
             }
             await interaction.reply({content:"Ticket deleted succesfully!", ephemeral: true})    
         }
-
-        await interaction.reply(MessaggioErrore);
     },
 }
 

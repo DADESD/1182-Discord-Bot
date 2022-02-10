@@ -22,7 +22,6 @@ module.exports = {
         .setTitle('Tickets Related Commands')
         .setDescription('List of the commands which starts with "/ticket_"')
         .setColor('RANDOM')
-        .addField('', '')
         .addField('/ticket_generate',"Use this command to open a ticket for your name. You can't have more than one ticket open at the time! Mandatory values are your governor ID and Governor name, notes are facoltative")
         .addField('/ticket_delete',"Use this command to delete your existing ticket")
        if (member.roles.cache.has(process.env.KINGDOM_LEADERSHIP_ID)) {

@@ -20,19 +20,19 @@ module.exports = {
 
         var passed = await ControlliPreliminari(interaction);
         if (passed == false) return;
-        
+        console.log('Controlli passati!' + interaction.channel.id);
         const FiltroTicket = {ChannelID:interaction.channel.id};
-        const myticketdata = await Ticket.find(FiltroTicket);
+        const myticketdata = await Ticket.findOne(FiltroTicket);
         if (myticketdata == null) return await interaction.reply({content:'There are no data available for this channel!', ephemeral:true});
         else
         {
             const CampiDaAggiornare ={status: "REFUSED"};
             await Ticket.findOneAndUpdate(FiltroTicket, CampiDaAggiornare, {upsert:false});
-            let MemberInfo = await interaction.guild.members.fetch(myticketdata[0].memberId);
+            let MemberInfo = await interaction.guild.members.fetch(myticketdata.memberId);
             interaction.channel.setName(interaction.channel.name + '_REFUSED');
 
-            let MessaggioRifiuto = 'We are sorry! <:frowning2:940309656872558663> You have been refused to join our kingdom, find the reason here below. \n'
-            MessaggioRifiuto += '**' + interaction.options.getString('reason') + '** \n';
+            let MessaggioRifiuto = 'We are sorry! <:frowning2:940309656872558663> \n You have been refused to join our kingdom, find the reason here below. \n'
+            MessaggioRifiuto += '\n\n\n **' + interaction.options.getString('reason') + '** \n\n\n';
             MessaggioRifiuto += 'Anyway, feel free to stay as appreciated guest in our server if you want! To enjoy our server, please change nickname indicating your kingdom, your alliance and your Governor Name';
             await interaction.reply({content:MessaggioRifiuto});
         }

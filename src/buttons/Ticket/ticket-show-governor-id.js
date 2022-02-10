@@ -8,7 +8,7 @@ module.exports = {
 
     async execute(interaction, client) {
 
-        const FiltroTicket = {channelID:interaction.channel.id};
+        const FiltroTicket = {ChannelID:interaction.channel.id};
         const myticketdata = await Ticket.findOne(FiltroTicket);
         if (myticketdata == null) await interaction.reply('There are no data available for this channel!');
         else

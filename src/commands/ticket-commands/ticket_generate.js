@@ -34,8 +34,8 @@ module.exports = {
         const {guild, member} = interaction;
         
         let Embed = new MessageEmbed()
-            .setAuthor({name: '1182 - Ticket System'})
-            .setDescription('Open a ticket for the user ' + interaction.user.username)
+            .setAuthor({name: guild.name + ' | ' + 'Ticket Manager'})
+            .setDescription('Hello There **' + interaction.user.username + '**! \n We need you to select from the buttons below what you represent for us, then a ticket at your name will be create! \n If you face any problem doing this operation (and after have carefully read the instuctions), please feel free to contact Kingdom Leadership team!')
             .setColor('RANDOM');
 
         const Buttons = new MessageActionRow()
@@ -65,7 +65,7 @@ module.exports = {
         //questo giocatore salvando il governor ID, così dopo devo solo salvarlo
         const FiltroTicket = {guildId:guild.id, memberId:member.id};
         var TicketTrovato = false;
-        const ticketdata = await Ticket.find(FiltroTicket);
+        const ticketdata = await Ticket.findOne(FiltroTicket);
 
         if(ticketdata == null || ticketdata.length == 0) {
             console.log('Ticket not found!');

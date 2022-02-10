@@ -17,21 +17,21 @@ module.exports = {
         if (passed == false) return;
 
         const FiltroTicket = {ChannelID:interaction.channel.id};
-        const myticketdata = await Ticket.find(FiltroTicket);
-        if (myticketdata[0] == null || myticketdata.length == 0) 
+        const myticketdata = await Ticket.findOne(FiltroTicket);
+        if (myticketdata == null || myticketdata.length == 0) 
         return await interaction.reply({content:'There are no data available for this channel!', ephemeral:true});
         else
         {
-            let UserInfo = await client.users.fetch(myticketdata[0].memberId);
+            let UserInfo = await client.users.fetch(myticketdata.memberId);
             const userEmbed = new MessageEmbed()
                 .setTitle(UserInfo.username + " Informations")
                 .setThumbnail( UserInfo.displayAvatarURL())
                 .setFields(
-                    {name:"Rok Governor ID: ", value: myticketdata[0].governor_ID},
-                    {name:"RoK Governor Name / Player Name: ", value: myticketdata[0].governor_name},
-                    {name:"Request Type: ", value: myticketdata[0].requestType},
-                    {name:"Status: ", value: myticketdata[0].status},
-                    {name:"Notes: ", value: myticketdata[0].notes === null ? 'Not any note' : myticketdata[0].notes},
+                    {name:"Rok Governor ID: ", value: myticketdata.governor_ID},
+                    {name:"RoK Governor Name / Player Name: ", value: myticketdata.governor_name},
+                    {name:"Request Type: ", value: myticketdata.requestType},
+                    {name:"Status: ", value: myticketdata.status},
+                    {name:"Notes: ", value: myticketdata.notes === null ? 'Not any note' : myticketdata.notes},
                     )
                 .setColor("GOLD");
 

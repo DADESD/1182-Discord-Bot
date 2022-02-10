@@ -3,6 +3,7 @@ module.exports =  (client) => {
         for (const file of eventsFile)
         {
             const event = require('../events/' + file);
+            console.log('Gestione evento' + file);
 
             if (event.once)
             {
