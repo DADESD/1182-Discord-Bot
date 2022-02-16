@@ -2,6 +2,8 @@ const {momentjs} = require('moment');
 const { REST } = require("@discordjs/rest");
 const {Route} = require('discord-api-types/v9');
 const { data } = require("../commands/ticket-commands/ticket_accept");
+const Eventi = require('../schemas/eventi')();
+const moment = require("moment");
 
 module.exports = {
     name: 'ready',
@@ -23,10 +25,16 @@ module.exports = {
 };
 
 async function CheckEventi() {
-    // var currentdate = new Date('07/02/2022');
-    // var otherdate = new Date('08/02/2022');
-    // console.log(getDifferenceInHours(otherdate, currentdate));
-    setTimeout(CheckEventi,5000);
+
+    console.log('Entro nel check degli eventi!');
+    const FiltroEvento = {Alleanza: 'gnd'};
+    var EventoTrovato = false;
+    const DatiEvento = await Eventi.find(FiltroEvento);
+    if(DatiEvento.length > 0) {
+        console.log('Evento trovato!'); 
+    }
+
+    setTimeout(CheckEventi,10000);
 }
 
 async function GestionePermessiComandi(client) {
@@ -46,7 +54,7 @@ async function GestionePermessiComandi(client) {
     commandsList.forEach(async (slashCommand) => {
         const NomeComando = slashCommand.name.toLowerCase();
         if (NomeComando === 'ticket_show_details' || NomeComando === 'clear' || 
-        NomeComando === 'ticket_accept' || NomeComando === 'ticket_refuse') {                
+        NomeComando === 'ticket_accept' || NomeComando === 'ticket_refuse' || NomeComando === 'alliance_create_event') {                
             await client.guilds.cache.get(process.env.GUILD_ID)?.commands.permissions.add({
                 command: slashCommand.id,
                 permissions: [adminPermission, everyonePermission]
