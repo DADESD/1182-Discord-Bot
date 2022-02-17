@@ -19,22 +19,35 @@ module.exports = {
 
         GestionePermessiComandi(client);
         setTimeout(() => {
-            CheckEventi();
+            CheckEventi(client);
         }, 5000);
     },
 };
 
-async function CheckEventi() {
+async function CheckEventi(client) {
 
-    console.log('Entro nel check degli eventi!');
-    const FiltroEvento = {Alleanza: 'gnd'};
-    var EventoTrovato = false;
-    const DatiEvento = await Eventi.find(FiltroEvento);
-    if(DatiEvento.length > 0) {
-        console.log('Evento trovato!'); 
-    }
+    // console.log('Entro nel check degli eventi!');
+    // const FiltroEvento = {Alleanza: 'gnd'};
+    // var EventoTrovato = false;
+    // const DatiEvento = await Eventi.find(FiltroEvento);
+    // if(DatiEvento.length > 0) {
+    //     DatiEvento.forEach( Evento => {
+    //         console.log(Evento.NomeEvento);
+    //     });
+    //     console.log('Evento trovato!'); 
+    //     const data = new Date();
+    //     const seconds = moment(DatiEvento[0].DataUTC).diff(moment(data), "second");
+    //     if (seconds < 3600) {
+    //         //Devo avvisare dell'evento un'ora prima, poi salvare il fatto che l'ho già fatto o va in loop
+    //         //Imposto il canale dove mandare il messaggio
+    //         const canale = client.channels.cache.get(process.env.ID_CANALE_ANNOUNCEMENT);
+    //         console.log(canale);
+    //         canale.send('@Gnd Member attention! the event ' + Evento.NomeEvento + ' will start at ' + '');
+    //     }
+    // }
 
-    setTimeout(CheckEventi,10000);
+    setTimeout(function () {
+        CheckEventi(client)},10000);
 }
 
 async function GestionePermessiComandi(client) {

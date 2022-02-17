@@ -113,11 +113,6 @@ module.exports = {
             const DataSchedulazioneEvento = DataStabilitaEvento.getDate() + '/' + (DataStabilitaEvento.getMonth()+1).toString() + '/' + DataStabilitaEvento.getFullYear() + ' ' + DataStabilitaEvento.getHours() + ':' + DataStabilitaEvento.getMinutes();
             await interaction.reply({content: 'An event with this name has already been added!!It is scheduled at this date and time: **' + DataSchedulazioneEvento + '**', ephemeral: true});
         }
-
-        // const date_2= new Date();
-        // const seconds = moment(DataEvento).diff(moment(date_2), "second");
-        // // var seconds = (data.getTime() - date_2.getTime()) / 1000;
-        // console.log(DataEvento + '\n' + date_2 + '\n' + seconds);
     },
 };
 
