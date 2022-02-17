@@ -29,16 +29,9 @@ async function CheckEventi(client) {
     const DatiEvento = await Eventi.find();
     if(DatiEvento.length > 0) {
         DatiEvento.forEach( async (Evento) => {
-            console.log('Evento trovato!'); 
-            var DataAttualeUTC =  moment.utc(new Date());
-            const DataEvento = new Date(Evento.DataUTC);
+            var DataAttualeUTC =  new Date();
+            const DataEvento = new Date(Evento.DataUTC).toUTCString();
             const seconds = moment(DataEvento).diff(DataAttualeUTC, "second");
-
-            console.log('Data Registrata UTC: ' + DataEvento);
-            const databoh = moment(DataEvento).add(DataEvento.getTimezoneOffset(), "minutes")
-            console.log(DataEvento.getTimezoneOffset());
-            console.log('Data con aggiunta offset: '+ databoh.toString());
-            console.log('Data Attuale UTC: ' + DataAttualeUTC);
             console.log(seconds);
             if (seconds < 3600 && seconds > 0) {
                 //Devo avvisare dell'evento un'ora e mezz'ora prima, poi salvare il fatto che l'ho già fatto o va in loop
@@ -46,14 +39,14 @@ async function CheckEventi(client) {
                 const canale = client.channels.cache.get(process.env.ID_CANALE_ANNOUNCEMENT);
                 var MessaggioRemind = '';
                 if (Evento.AggiornaUnOra == 0) {
-                    MessaggioRemind = 'ATTENTION! the event **' + Evento.NomeEvento + '** of the alliance ' + Evento.Alleanza + ' will start in 1 hour! (**' + DataEvento.toUTCString().replace('GMT', 'UTC') + '**)';
+                    MessaggioRemind = 'ATTENTION! the event **' + Evento.NomeEvento + '** of the alliance ' + Evento.Alleanza + ' will start in 1 hour! (**' + DataEvento.replace('GMT', 'UTC') + '**)';
                     var FiltroEvento = {Alleanza: Evento.Alleanza, NomeEvento: Evento.NomeEvento};
                     const CampiDaAggiornare = {AggiornaUnOra: 1}
                     await Eventi.updateOne(FiltroEvento, CampiDaAggiornare);
                     canale.send('<@&' + process.env.ID_ROLE_KINGDOM_MEMBER + '> ' + MessaggioRemind);
                 } else if (Evento.AggiornaMezzora == 0 && seconds < 1800)
                 {
-                    MessaggioRemind = 'ATTENTION! the event **' + Evento.NomeEvento + '** of the alliance ' + Evento.Alleanza + ' will start in 30 minutes! (**' + DataEvento.toUTCString().replace('GMT', 'UTC') + '**)';
+                    MessaggioRemind = 'ATTENTION! the event **' + Evento.NomeEvento + '** of the alliance ' + Evento.Alleanza + ' will start in 30 minutes! (**' + DataEvento.replace('GMT', 'UTC') + '**)';
                     var FiltroEvento = {Alleanza: Evento.Alleanza, NomeEvento: Evento.NomeEvento};
                     const CampiDaAggiornare = {AggiornaMezzora: 1}
                     await Eventi.updateOne(FiltroEvento, CampiDaAggiornare);

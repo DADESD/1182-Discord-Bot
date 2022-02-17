@@ -95,7 +95,7 @@ module.exports = {
         if(DatiEvento == null || DatiEvento.length == 0) {
             console.log('Evento non trovato!');
             EventoTrovato = false;
-            const DataEvento = new Date(AnnoEvento, MeseEvento, GiornoEvento, OraEvento, MinutiEvento);
+            const DataEvento = new Date(Date.UTC(AnnoEvento, MeseEvento, GiornoEvento, OraEvento, MinutiEvento)).toUTCString();
             await Eventi.create({
                 Alleanza: NomeAlleanza.toUpperCase(),
                 NomeEvento: NomeEvento,
@@ -110,7 +110,7 @@ module.exports = {
                            {name: 'Event Alliance: ', value: NomeAlleanza.toUpperCase()});
                 
                 const canale = client.channels.cache.get(process.env.ID_CANALE_ANNOUNCEMENT);
-                //canale.send('<@&' + process.env.ID_ROLE_KINGDOM_MEMBER + '> event **' + NomeEvento + '** for the alliance ' + NomeAlleanza.toUpperCase() + ' has been set for the date **' + DataEvento.toString() + '**');
+                canale.send('<@&' + process.env.ID_ROLE_KINGDOM_MEMBER + '> event **' + NomeEvento + '** for the alliance ' + NomeAlleanza.toUpperCase() + ' has been set for the date **' + DataEvento.toString() + '**');
                 await interaction.reply({embeds: [Embed], ephemeral: true});
         } else {
             EventoTrovato = true;
