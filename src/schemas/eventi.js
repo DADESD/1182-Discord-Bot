@@ -3,6 +3,8 @@ const eventiSchema = new mongoose.Schema({
     Alleanza: String,
     NomeEvento: String,
     DataUTC: String,
+    AggiornaUnOra: Number,
+    AggiornaMezzora: Number,
 });
 
 function loadModel(modelName, modelSchema) {

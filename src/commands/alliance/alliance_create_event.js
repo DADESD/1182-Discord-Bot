@@ -1,5 +1,5 @@
 const {SlashCommandBuilder} = require('@discordjs/builders');
-const { MessageEmbed } = require('discord.js');
+const { MessageEmbed, Message } = require('discord.js');
 const Eventi = require('../../schemas/eventi')();
 const moment = require("moment");
 
@@ -28,12 +28,12 @@ module.exports = {
         )
     .addStringOption((option) => option
         .setName('day')
-        .setDescription('Day (express in number) on when the event will take place')
+        .setDescription('Day (express in number) on when the event will take place in UTC!!')
         .setRequired(true)
     )
     .addStringOption((option) => option
         .setName('hour')
-        .setDescription('Hour on which the event will be play (from 0 to 24)')
+        .setDescription('Hour on which the event will be play (from 0 to 24)  in UTC!!')
         .setRequired(true)
     )
     .addStringOption((option) => option
@@ -62,12 +62,12 @@ module.exports = {
         )
     .addStringOption((option) => option
         .setName('day')
-        .setDescription('Day (express in number) on when the event will take place')
+        .setDescription('Day (express in number) on when the event will take place  in UTC!!')
         .setRequired(true)
     )
     .addStringOption((option) => option
         .setName('hour')
-        .setDescription('Hour on which the event will be play (from 0 to 24)')
+        .setDescription('Hour on which the event will be play (from 0 to 24)  in UTC!!')
         .setRequired(true)
     )
     .addStringOption((option) => option
@@ -86,26 +86,32 @@ module.exports = {
         const MinutiEvento = interaction.options.getString('minute');
         // const passed = ControlliPreliminari(interaction);
         // if (passed == false) return;
-        // var Alleanza = '';
-        // var Categoria = interaction.channel.parentId;
-        // if (Categoria == process.env.ID_CATEGORIA_GND) Alleanza = 'GND'
-        // if (Categoria == process.env.ID_CATEGORIA_IXGK) Alleanza = 'IXGK'
+
         console.log('Cerco evento con nome ' + NomeEvento + ' ed alleanza ' + NomeAlleanza);
         const FiltroEvento = {Alleanza: NomeAlleanza, NomeEvento:NomeEvento};
         var EventoTrovato = false;
         const DatiEvento = await Eventi.findOne(FiltroEvento);
 
-        const data = new Date();
-        const DataEvento = new Date(data.getFullYear(), MeseEvento, GiornoEvento, OraEvento, MinutiEvento);
         if(DatiEvento == null || DatiEvento.length == 0) {
             console.log('Evento non trovato!');
             EventoTrovato = false;
+            const DataEvento = new Date(AnnoEvento, MeseEvento, GiornoEvento, OraEvento, MinutiEvento);
             await Eventi.create({
                 Alleanza: NomeAlleanza.toUpperCase(),
                 NomeEvento: NomeEvento,
-                DataUTC: new Date(data.getFullYear(), MeseEvento, GiornoEvento, OraEvento, MinutiEvento).toString(),
+                DataUTC: DataEvento,
+                AggiornaUnOra: 0,
+                AggiornaMezzora: 0,
                 });
-                await interaction.reply({content: 'Event created successfully!!', ephemeral: true});
+
+                let Embed = new MessageEmbed()
+                .setTitle('Event ' + NomeEvento + ' generated successfully!')
+                .setFields({name: 'Event Date', value: DataEvento.toString()},
+                           {name: 'Event Alliance: ', value: NomeAlleanza.toUpperCase()});
+                
+                const canale = client.channels.cache.get(process.env.ID_CANALE_ANNOUNCEMENT);
+                //canale.send('<@&' + process.env.ID_ROLE_KINGDOM_MEMBER + '> event **' + NomeEvento + '** for the alliance ' + NomeAlleanza.toUpperCase() + ' has been set for the date **' + DataEvento.toString() + '**');
+                await interaction.reply({embeds: [Embed], ephemeral: true});
         } else {
             EventoTrovato = true;
             console.log('Evento trovato!');

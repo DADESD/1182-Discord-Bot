@@ -41,15 +41,10 @@ module.exports = {
         const Buttons = new MessageActionRow()
             .addComponents(
                 new MessageButton()
-                .setCustomId("ticket-gnd-member")
-                .setLabel("GnD Member")
+                .setCustomId("ticket-kingdom-member")
+                .setLabel("1182 Member")
                 .setStyle("PRIMARY"),
                 
-                new MessageButton()
-                .setCustomId("ticket-ixgk-member")
-                .setLabel("IXGK Member")
-                .setStyle("PRIMARY"),
-
                 new MessageButton()
                 .setCustomId("ticket-migrant")
                 .setLabel("Migration Request")

@@ -29,18 +29,11 @@ module.exports = {
             let MemberInfo = await interaction.guild.members.fetch(myticketdata[0].memberId);
             switch (myticketdata[0].requestType.toString().toLowerCase())
             {
-                case 'gnd-member':
+                case 'kingdom-member':
                     {
-                        MemberInfo.roles.add(process.env.ID_ROLE_GND_MEMBER);
+                        MemberInfo.roles.add(process.env.ID_ROLE_KINGDOM_MEMBER);
                         break;
-                    }
-                case 'ixgk-member':
-                    {
-                        console.log('Controlli passati PT 3');
-                        MemberInfo.roles.add(process.env.ID_ROLE_IXGK_MEMBER);
-                        console.log('Controlli passati PT 4');
-                        break;
-                    }                    
+                    }                  
                 case 'migrant':
                     {
                         MemberInfo.roles.add(process.env.ID_ROLE_GND_MEMBER);
