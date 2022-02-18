@@ -15,7 +15,8 @@ module.exports = {
         .setDescription('List of the categories commands offered by 1182 Official Channel Super Bot <:sunglasses:940307265137827882>')
         .setColor('RANDOM')
         .setFields(
-            {name: '/help_commands_ticket', value: 'Show the list of the commands related to the tickets'}
+            {name: '/help_commands_ticket', value: 'Show the list of the commands related to the tickets'},
+            {name: '/help_commands_alliance', value: 'Show the list of the commands related to the alliances'}
         );
 
         await interaction.reply({embeds: [Embed], ephemeral: true});

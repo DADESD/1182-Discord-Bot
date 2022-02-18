@@ -81,7 +81,8 @@ async function GestionePermessiComandi(client) {
     commandsList.forEach(async (slashCommand) => {
         const NomeComando = slashCommand.name.toLowerCase();
         if (NomeComando === 'ticket_show_details' || NomeComando === 'clear' || 
-        NomeComando === 'ticket_accept' || NomeComando === 'ticket_refuse' || NomeComando === 'alliance_create_event') {                
+        NomeComando === 'ticket_accept' || NomeComando === 'ticket_refuse' || NomeComando === 'ticket_close' 
+        || NomeComando === 'alliance_create_event') {                
             await client.guilds.cache.get(process.env.GUILD_ID)?.commands.permissions.add({
                 command: slashCommand.id,
                 permissions: [adminPermission, everyonePermission]

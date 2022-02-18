@@ -20,21 +20,24 @@ module.exports = {
 
         var passed = await ControlliPreliminari(interaction);
         if (passed == false) return;
-        console.log('Controlli passati!' + interaction.channel.id);
+
         const FiltroTicket = {ChannelID:interaction.channel.id};
         const myticketdata = await Ticket.findOne(FiltroTicket);
-        if (myticketdata == null) return await interaction.reply({content:'There are no data available for this channel!', ephemeral:true});
+        if (myticketdata == null) 
+        await interaction.reply({content:'There are no data available for this channel!', ephemeral:true});
         else
         {
-            const CampiDaAggiornare ={status: "REFUSED"};
-            await Ticket.findOneAndUpdate(FiltroTicket, CampiDaAggiornare, {upsert:false});
-            let MemberInfo = await interaction.guild.members.fetch(myticketdata.memberId);
-            interaction.channel.setName(interaction.channel.name + '_REFUSED');
-
+            await interaction.reply({content:'Closing Ticket...'});
+            if (myticketdata.ChannelID != undefined && myticketdata.ChannelID != null) {
+                if (interaction.guild.channels.cache.get(myticketdata.ChannelID)) {
+                    interaction.guild.channels.cache.get(myticketdata.ChannelID).delete();
+                }
+            }
+            await Ticket.deleteOne(FiltroTicket);
             let MessaggioRifiuto = 'We are sorry! <:frowning2:940309656872558663> \n You have been refused to join our kingdom, find the reason here below. \n'
-            MessaggioRifiuto += '\n\n\n **' + interaction.options.getString('reason') + '** \n\n\n';
+            MessaggioRifiuto += '\n **' + interaction.options.getString('reason') + '** \n';
             MessaggioRifiuto += 'Anyway, feel free to stay as appreciated guest in our server if you want! To enjoy our server, please change nickname indicating your kingdom, your alliance and your Governor Name';
-            await interaction.reply({content:MessaggioRifiuto});
+            interaction.channel.guild.members.cache.get(myticketdata.memberId).send(MessaggioRifiuto);
         }
     },
 }
@@ -49,12 +52,6 @@ async function ControlliPreliminari(interaction) {
     //Controllo di mettere il comando SOLO nella pagina relativa ai ticket!!!
     if (interaction.channel.id === process.env.WELCOME_PAGE_ID || interaction.channel.id === process.env.TICKETMANAGEMENT_PAGE_ID) {
         await interaction.reply({content:'This command is allowed only in specific ticket channels (opened tickets)!', ephemeral: true});
-        return false;
-    }
-
-    //Controllo che il ticket non sia già stato accettato / rifiutato
-    if (interaction.channel.name.toUpperCase().endsWith('ACCEPTED') || interaction.channel.name.toUpperCase().endsWith('REFUSED')) {
-        await interaction.reply({content: "Ticket has already been accepted / refused, you can't modify it!", ephemeral: true});
         return false;
     }
 
