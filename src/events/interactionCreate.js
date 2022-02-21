@@ -93,7 +93,9 @@ function createTicket(interaction, guild, member, comando, client) {
             Messaggio += 'Please, be aware that Kingdom Leadership will take in charge your ticket ';
             Messaggio += 'as soon as possible and will write you in your channel, which you can reach by ';
             Messaggio += 'clicking on this link: ' + channel.toString() + '\n';
-            Messaggio += 'There, you will also find all the informations regarding your application!';
+            Messaggio += 'There, you will also find all the informations regarding your application! \n';
+            Messaggio += 'Please, in the while you wait us to contact you, please send in the channel cited above ';
+            Messaggio += 'the screenshots of your deaths and detials of Kill Points! (only for migrants is necessary)';
 
             interaction.reply({content: Messaggio, ephemeral: true});
 
