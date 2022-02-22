@@ -33,7 +33,7 @@ module.exports = {
                     }                  
                 case 'migrant':
                     {
-                        MemberInfo.roles.add(process.env.ID_ROLE_GND_MEMBER);
+                        MemberInfo.roles.add(process.env.ID_ROLE_KINGDOM_MEMBER);
                         break;
                     }
                 case 'kvk-ally':
